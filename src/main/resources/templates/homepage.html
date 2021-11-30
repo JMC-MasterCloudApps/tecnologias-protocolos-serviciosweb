@@ -1,0 +1,14 @@
+<html>
+<body>
+	<h1>Homepage</h1>
+	
+	<button type="button"><a href="/new-book/" style="text-decoration: none">New book</a></i></button >
+	
+	<ul>
+	{{#books}}
+		<li><a href="/book-detail/{{id}}">{{title}}</a></li>
+	{{/books}}
+	</ul>
+	
+</body>
+</html>

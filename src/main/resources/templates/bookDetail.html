@@ -1,0 +1,51 @@
+<html>
+<head>
+	<style>
+		label {
+		    font-style: italic;
+		    color: darkgrey;
+		    font-size: small;
+		}
+	</style>
+</head>
+<body>
+	
+	<button type="button"><a href="/app" style="text-decoration: none">Back to home page</a></i></button >
+	<h1>Book detail</h1>
+	
+	<ul>
+		<li><label>Title</label> {{book.title}}</li><br>
+		<li><label>Summary</label> {{book.summary}}</li><br>
+		<li><label>Author</label> {{book.author}}</li><br>
+		<li><label>Publish house</label> {{book.publishHouse}}</li><br>
+		<li><label>Publish year</label> {{book.publishYear}}</li><br>
+	</ul>
+	
+	<h2>Comments</h2>
+	
+	<h4>Add comment</h4>
+	<form action="/new-comment" method="POST">	
+		<input type="number" name="bookId" value={{book.id}} hidden/>
+		<input type="text" name="author" value="{{#username}}{{.}}{{/username}}" placeholder="Author"><br><br>
+		<textarea name="content" placeholder="Comment" rows="2" cols="21"></textarea><br><br>
+		<input type="number" name="score" placeholder="Score (0-5)" min="0" max="5"/><br><br>
+		
+		<input type="submit" value="Add comment"/>
+	</form>
+	
+	<ul>
+	{{#book.comments}}
+		<li>
+			<p>Author: {{author}}</p>
+			<p>{{content}}</p>
+			<p>Score: {{score}}</p>			
+		</li>
+		<button><a href="/delete-comment/{{id}}/{{book.id}}" style="text-decoration: none">Delete</a></i></button >
+	{{/book.comments}}
+	</ul>
+	{{^book.comments.0}}
+    <p>No comments</p>
+	{{/book.comments.0}}
+
+</body>
+</html>
