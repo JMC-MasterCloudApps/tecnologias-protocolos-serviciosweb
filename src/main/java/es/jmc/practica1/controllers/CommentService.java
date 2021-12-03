@@ -1,5 +1,7 @@
-package es.jmc.practica1;
+package es.jmc.practica1.controllers;
 
+import es.jmc.practica1.view.api.dtos.CommentDTO;
+import es.jmc.practica1.models.Comment;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package es.jmc.practica1;
+package es.jmc.practica1.view.api.dtos;
 
 import java.util.List;
 

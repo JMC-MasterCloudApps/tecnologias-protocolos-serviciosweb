@@ -1,4 +1,4 @@
-package es.jmc.practica1.api.controllers;
+package es.jmc.practica1.view.api.rest;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.jmc.practica1.Book;
-import es.jmc.practica1.BookService;
-import es.jmc.practica1.Comment;
-import es.jmc.practica1.CommentDTO;
-import es.jmc.practica1.CommentService;
+import es.jmc.practica1.models.Book;
+import es.jmc.practica1.controllers.BookService;
+import es.jmc.practica1.models.Comment;
+import es.jmc.practica1.view.api.dtos.CommentDTO;
+import es.jmc.practica1.controllers.CommentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -6,6 +6,38 @@ servers:
 - url: http://localhost:8080
   description: Generated server url
 paths:
+  /api/v1/users/:
+    get:
+      tags:
+      - user-controller
+      summary: Get all users
+      operationId: getUsers
+      responses:
+        "200":
+          description: Users returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lite_Lite'
+    post:
+      tags:
+      - user-controller
+      summary: Create new user
+      operationId: createUser
+      requestBody:
+        description: User to be created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+        required: true
+      responses:
+        "201":
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
   /api/v1/comments/:
     post:
       tags:
@@ -60,6 +92,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Book'
+  /api/v1/users/{id}:
+    get:
+      tags:
+      - user-controller
+      summary: Get user by ID
+      operationId: getUser
+      parameters:
+      - name: id
+        in: path
+        description: ID of the user to be searched
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "204":
+          description: User not found
+        "200":
+          description: User returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lite_Lite'
+    delete:
+      tags:
+      - user-controller
+      summary: Delete user
+      operationId: deleteUser
+      parameters:
+      - name: id
+        in: path
+        description: ID of the user
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: User deleted
   /api/v1/comments/{id}:
     get:
       tags:
@@ -75,14 +146,14 @@ paths:
           type: integer
           format: int64
       responses:
+        "204":
+          description: Comment not found
         "200":
           description: Comment returned
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Comment'
-        "204":
-          description: Comment not found
     delete:
       tags:
       - comment-controller
@@ -114,14 +185,14 @@ paths:
           type: integer
           format: int64
       responses:
-        "204":
-          description: Book not found
         "200":
           description: Book returned
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Book_BookDetail'
+        "204":
+          description: Book not found
     delete:
       tags:
       - book-controller
@@ -140,6 +211,23 @@ paths:
           description: Book deleted
 components:
   schemas:
+    UserRequest:
+      type: object
+      properties:
+        nick:
+          type: string
+        email:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nick:
+          type: string
+        email:
+          type: string
     Comment:
       type: object
       properties:
@@ -205,6 +293,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Comment'
+    Lite_Lite:
+      type: object
     Book_BookDetail:
       type: object
       properties:

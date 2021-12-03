@@ -1,10 +1,12 @@
-package es.jmc.practica1.api.controllers;
+package es.jmc.practica1.view.api.rest;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
+import es.jmc.practica1.view.api.dtos.BookDTO;
 import java.net.URI;
 import java.util.Collection;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,10 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-import es.jmc.practica1.Book;
-import es.jmc.practica1.BookDTO;
-import es.jmc.practica1.BookService;
-import es.jmc.practica1.Comment;
+import es.jmc.practica1.models.Book;
+import es.jmc.practica1.controllers.BookService;
+import es.jmc.practica1.models.Comment;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,12 +30,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
 @RequestMapping("/api/v1/books")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BookController {
 	
 	interface BookDetail extends Book.Full, Comment.Full { }
 
-	@Autowired
-	private BookService service;
+	private final BookService service;
 	
 	@GetMapping("/")
 	@JsonView(Book.Lite.class)
@@ -51,7 +52,8 @@ public class BookController {
 	@ApiResponse(description = "Book returned", responseCode = "200", 
 	content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class)))
 	@ApiResponse(description = "Book not found", responseCode = "204", content = @Content)
-	public ResponseEntity<Book> getBook(@Parameter(description = "ID of the book to be searched")
+	public ResponseEntity<Book> getBook(
+			@Parameter(description = "ID of the book to be searched")
 			@PathVariable long id) {
 		
 		final Book book = service.getBook(id);

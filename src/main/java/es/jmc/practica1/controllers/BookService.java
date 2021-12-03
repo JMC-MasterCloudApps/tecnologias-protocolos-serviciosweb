@@ -1,5 +1,8 @@
-package es.jmc.practica1;
+package es.jmc.practica1.controllers;
 
+import es.jmc.practica1.view.api.dtos.BookDTO;
+import es.jmc.practica1.models.Book;
+import es.jmc.practica1.models.Comment;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -8,14 +11,14 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import javax.annotation.PostConstruct;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class BookService {
-	
-	Logger log = LoggerFactory.getLogger(BookService.class);
 
 	private List<Book> books;
 	private AtomicLong idCounter = new AtomicLong();

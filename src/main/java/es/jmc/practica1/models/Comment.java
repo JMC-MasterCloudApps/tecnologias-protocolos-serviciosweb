@@ -1,4 +1,4 @@
-package es.jmc.practica1;
+package es.jmc.practica1.models;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
