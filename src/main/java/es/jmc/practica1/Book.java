@@ -6,11 +6,14 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
+import lombok.Data;
+
+@Data
 public class Book {
 
-	interface Lite { }
+	public interface Lite { }
 	
-	interface Full { }
+	public interface Full { }
 	
 	@JsonView(value = {Lite.class, Full.class})
 	private final long id;
@@ -48,14 +51,6 @@ public class Book {
 		this.publishHouse = publishHouse;
 		this.publishYear = publishYear;
 		this.comments = Collections.synchronizedList(new ArrayList<>());
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public List<Comment> getComments() {
-		return comments;
 	}
 	
 	public boolean addComment(Comment comment) {

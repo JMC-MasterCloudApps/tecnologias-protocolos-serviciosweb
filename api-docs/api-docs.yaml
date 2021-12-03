@@ -1,0 +1,249 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /api/v1/comments/:
+    post:
+      tags:
+      - comment-controller
+      summary: Create new comment
+      operationId: createComment
+      requestBody:
+        description: Comment to be created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+        required: true
+      responses:
+        "201":
+          description: Comment created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        "204":
+          description: Book not found
+  /api/v1/books/:
+    get:
+      tags:
+      - book-controller
+      summary: Get all books
+      operationId: getBooks
+      responses:
+        "200":
+          description: Books returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book_Lite'
+    post:
+      tags:
+      - book-controller
+      summary: Create new book
+      operationId: createBook
+      requestBody:
+        description: Book to be created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookDTO'
+        required: true
+      responses:
+        "201":
+          description: Book created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+  /api/v1/comments/{id}:
+    get:
+      tags:
+      - comment-controller
+      summary: Get comment by ID
+      operationId: getComment
+      parameters:
+      - name: id
+        in: path
+        description: ID of the comment to be searched
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Comment returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        "204":
+          description: Comment not found
+    delete:
+      tags:
+      - comment-controller
+      summary: Delete comment
+      operationId: deleteComment
+      parameters:
+      - name: id
+        in: path
+        description: ID of the comment to be deleted
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Comment deleted
+  /api/v1/books/{id}:
+    get:
+      tags:
+      - book-controller
+      summary: Get book by ID
+      operationId: getBook
+      parameters:
+      - name: id
+        in: path
+        description: ID of the book to be searched
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "204":
+          description: Book not found
+        "200":
+          description: Book returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book_BookDetail'
+    delete:
+      tags:
+      - book-controller
+      summary: Delete book
+      operationId: deleteBook
+      parameters:
+      - name: id
+        in: path
+        description: ID of the book
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Book deleted
+components:
+  schemas:
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        author:
+          type: string
+        content:
+          type: string
+        score:
+          type: integer
+          format: int32
+    BookDTO:
+      type: object
+      properties:
+        title:
+          type: string
+        summary:
+          type: string
+        author:
+          type: string
+        publishHouse:
+          type: string
+        publishYear:
+          type: integer
+          format: int32
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommentDTO'
+    CommentDTO:
+      type: object
+      properties:
+        bookId:
+          type: integer
+          format: int64
+        author:
+          type: string
+        content:
+          type: string
+        score:
+          type: integer
+          format: int32
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        summary:
+          type: string
+        author:
+          type: string
+        publishHouse:
+          type: string
+        publishYear:
+          type: integer
+          format: int32
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+    Book_BookDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        summary:
+          type: string
+        author:
+          type: string
+        publishHouse:
+          type: string
+        publishYear:
+          type: integer
+          format: int32
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment_BookDetail'
+    Comment_BookDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        author:
+          type: string
+        content:
+          type: string
+        score:
+          type: integer
+          format: int32
+    Book_Lite:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string

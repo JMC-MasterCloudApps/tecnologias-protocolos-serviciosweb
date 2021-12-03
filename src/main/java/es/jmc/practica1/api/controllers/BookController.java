@@ -1,4 +1,4 @@
-package es.jmc.practica1;
+package es.jmc.practica1.api.controllers;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
@@ -17,13 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
+import es.jmc.practica1.Book;
+import es.jmc.practica1.BookDTO;
+import es.jmc.practica1.BookService;
+import es.jmc.practica1.Comment;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
-@RequestMapping("/books")
+@RequestMapping("/api/v1/books")
 public class BookController {
 	
 	interface BookDetail extends Book.Full, Comment.Full { }
@@ -34,7 +39,8 @@ public class BookController {
 	@GetMapping("/")
 	@JsonView(Book.Lite.class)
 	@Operation(summary = "Get all books")
-	@ApiResponse (description = "Books returned", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class))) 
+	@ApiResponse (description = "Books returned", responseCode = "200", 
+	content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class))) 
 	public Collection<Book> getBooks() {
 		return service.getBooks();
 	}
@@ -42,9 +48,11 @@ public class BookController {
 	@GetMapping("/{id}")
 	@JsonView(BookDetail.class)
 	@Operation(summary = "Get book by ID")
-	@ApiResponse(description = "Book returned", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class)))
+	@ApiResponse(description = "Book returned", responseCode = "200", 
+	content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class)))
 	@ApiResponse(description = "Book not found", responseCode = "204", content = @Content)
-	public ResponseEntity<Book> getBook(@PathVariable long id) {
+	public ResponseEntity<Book> getBook(@Parameter(description = "ID of the book to be searched")
+			@PathVariable long id) {
 		
 		final Book book = service.getBook(id);
 		
@@ -57,7 +65,10 @@ public class BookController {
 
 	@PostMapping("/")
 	@Operation(summary = "Create new book")
-	@ApiResponse(description = "Book created", responseCode = "201", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class)))
+	@ApiResponse(description = "Book created", responseCode = "201", content = 
+	@Content(mediaType = "application/json", schema = @Schema(implementation = Book.class)))
+	@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Book to be created", required = true,
+	content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDTO.class)))
 	public ResponseEntity<Book> createBook(@RequestBody BookDTO newBook) {
 		
 		Book book = service.create(newBook);
@@ -70,7 +81,9 @@ public class BookController {
 	@DeleteMapping("/{id}")
 	@Operation(summary = "Delete book")
 	@ApiResponse(description = "Book deleted", responseCode = "200", content = @Content)
-	public ResponseEntity<?> deleteBook(@PathVariable long id) {
+	public ResponseEntity<Void> deleteBook(
+			@Parameter(description = "ID of the book")
+			@PathVariable long id) {
 		
 		Book book = service.getBook(id);
 		if (book != null) {

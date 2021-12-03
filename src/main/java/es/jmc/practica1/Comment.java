@@ -2,9 +2,12 @@ package es.jmc.practica1;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
+import lombok.Data;
+
+@Data
 public class Comment {
 
-	interface Full { }
+	public interface Full { }
 	
 	@JsonView(Full.class)
 	private final long id;
@@ -17,16 +20,5 @@ public class Comment {
 
 	@JsonView(Full.class)
 	private final int score;
-	
-	public Comment(long id, String author, String content, int score) {
-		
-		this.id = id;
-		this.author = author;
-		this.content = content;
-		this.score = score;
-	}
-	
-	public long getId() {
-		return id;
-	}
+
 }
