@@ -103,7 +103,7 @@ interface CommentRestApi {
 	@io.swagger.v3.oas.annotations.parameters.RequestBody(
 			description = "Comment to be created", 
 			required = true,
-			content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = Comment.class)))
+			content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = CommentRequest.class)))
 	@ApiResponses({	
 		@ApiResponse(
 				description = "Comment created", 
