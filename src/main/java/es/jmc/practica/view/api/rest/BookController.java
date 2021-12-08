@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
-@RequestMapping("/api/v1/books")
+@RequestMapping("/books")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BookController {
 	
