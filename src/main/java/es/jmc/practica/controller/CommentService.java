@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.jmc.practica.model.Comment;
+import es.jmc.practica.model.Score;
 import es.jmc.practica.view.api.dtos.CommentRequest;
 
 @Service
@@ -22,13 +23,10 @@ public class CommentService {
 		return bookService.findCommentById(id);
 	}
 	
-	public Comment create(CommentRequest dto) {
+	public Comment create(Comment comment) {
 		
-		return new Comment(
-				idCounter.getAndIncrement(),
-				dto.author(),
-				dto.content(),
-				dto.score());
+		comment.setId(idCounter.getAndIncrement());
+		return comment;
 	}
 	
 	public void delete(Comment comment) {
@@ -40,6 +38,6 @@ public class CommentService {
 		if (Math.random() % 2 == 0)
 			return Collections.emptySet();
 		
-		return Collections.singleton(new Comment(55, "Joey", "This is just fire!", 4)); 
+		return Collections.singleton(new Comment(55, "Joey", "This is just fire!", Score.FOUR)); 
 	}
 }

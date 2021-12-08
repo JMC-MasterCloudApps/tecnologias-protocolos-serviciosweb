@@ -22,6 +22,7 @@
 		<openapi.version>1.5.12</openapi.version>
 	    <swagger.version>2.0.28</swagger.version>
       	<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+      	<m2e.apt.activation>jdt_apt</m2e.apt.activation>
 	</properties>
 	
 	<dependencies>

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import es.jmc.practica.model.Book;
 import es.jmc.practica.model.Comment;
+import es.jmc.practica.model.Score;
 import es.jmc.practica.view.api.dtos.BookRequest;
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,9 +43,11 @@ public class BookService {
 				"Kent Beck",
 				"Addison Wesley",
 				2004);
-		var comment = new Comment(1, "Ed Yourdon",
+		var comment = new Comment(
+				1, 
+				"Ed Yourdon",
 				"This book is dynamite!",
-				5); 
+				Score.FIVE); 
 		
 		book.addComment(comment);
 		log.info(book.toString());

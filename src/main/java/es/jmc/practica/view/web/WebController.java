@@ -14,6 +14,7 @@ import es.jmc.practica.controller.BookService;
 import es.jmc.practica.controller.CommentService;
 import es.jmc.practica.model.Book;
 import es.jmc.practica.model.Comment;
+import es.jmc.practica.model.Score;
 import es.jmc.practica.view.api.dtos.BookRequest;
 import es.jmc.practica.view.api.dtos.CommentRequest;
 
@@ -77,7 +78,7 @@ public class WebController {
 			@RequestParam int score) {
 
 		session.setUserName(author);
-		var dto = new CommentRequest(bookId, author, content, score);
+		var dto = new Comment(bookId, author, content, Score.findByValue(score));
 
 		Comment comment = commentService.create(dto);
 		Book book = bookService.getBook(bookId);

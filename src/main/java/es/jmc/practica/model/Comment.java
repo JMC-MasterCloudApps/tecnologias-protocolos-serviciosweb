@@ -10,6 +10,6 @@ public class Comment {
 	private long id;
 	private String author;
 	private String content;
-	private int score;
+	private Score score;
 
 }

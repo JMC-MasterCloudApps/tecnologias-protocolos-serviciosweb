@@ -1,5 +1,7 @@
 package es.jmc.practica.view.api.rest;
 
+import static es.jmc.practica.view.api.mapper.CommentMapper.COMMENT_MAPPER;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
@@ -57,7 +59,8 @@ public class CommentController implements CommentRestApi {
 			return ResponseEntity.noContent().build();
 		}
 		
-		Comment comment = service.create(dto);
+		Comment comment = COMMENT_MAPPER.dto2comment(dto);
+		comment = service.create(comment);
 		book.addComment(comment);
 
 		URI location = fromCurrentRequest().path("/{id}").buildAndExpand(comment.getId()).toUri();
