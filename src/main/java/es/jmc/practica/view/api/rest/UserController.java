@@ -11,13 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.fasterxml.jackson.annotation.JsonView;
 
 import es.jmc.practica.controller.UserService;
 import es.jmc.practica.model.User;
@@ -25,36 +23,24 @@ import es.jmc.practica.view.api.dtos.UserRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class UserController {
+public class UserController implements UserRestApi {
 
 	private final UserService service;
 
 	@GetMapping("/")
-	@JsonView(User.Lite.class)
-	@Operation(summary = "Get all users")
-	@ApiResponse (description = "Users returned", responseCode = "200",
-			content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.Lite.class)))
 	public Collection<User> getUsers() {
 
 		return service.getUsers();
 	}
 
 	@GetMapping("/{id}")
-	@JsonView(User.Lite.class)
-	@Operation(summary = "Get user by ID")
-	@ApiResponse(description = "User returned", responseCode = "200",
-			content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.Lite.class)))
-	@ApiResponse(description = "User not found", responseCode = "204", content = @Content)
-	public ResponseEntity<User> getUser
-			(@Parameter(description = "ID of the user to be searched")
-			@PathVariable long id) {
+	public ResponseEntity<User> getUser(long id) {
 
 		final Optional<User> user = service.getUser(id);
 
@@ -63,13 +49,7 @@ public class UserController {
 
 
 	@PostMapping("/")
-	@Operation(summary = "Create new user")
-	@ApiResponse(description = "User created", responseCode = "201", content =
-	@Content(mediaType = "application/json", schema = @Schema(implementation = User.class)))
-	@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User to be created", required = true,
-			content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserRequest.class)))
-	public ResponseEntity<User> createUser
-			(@RequestBody UserRequest userRequest) {
+	public ResponseEntity<User> createUser(UserRequest userRequest) {
 
 		User user = service.create(userRequest);
 
@@ -78,8 +58,8 @@ public class UserController {
 		return ResponseEntity.created(location).body(user);
 	}
 
-	// TODO
-	public ResponseEntity<User> updateUserEmail(String email) {
+	@PatchMapping("/")
+	public ResponseEntity<User> updateUserEmail() {
 
 		return null;
 	}

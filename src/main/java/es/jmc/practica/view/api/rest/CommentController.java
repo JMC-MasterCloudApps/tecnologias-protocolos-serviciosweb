@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,15 +17,10 @@ import es.jmc.practica.controller.CommentService;
 import es.jmc.practica.model.Book;
 import es.jmc.practica.model.Comment;
 import es.jmc.practica.view.api.dtos.CommentDTO;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
-@RequestMapping("/api/v1/comments")
-public class CommentController {
+@RequestMapping("/comments")
+public class CommentController implements CommentRestApi {
 
 	@Autowired
 	private BookService bookService;
@@ -36,12 +29,7 @@ public class CommentController {
 	private CommentService service;
 	
 	@GetMapping("/{id}")
-	@Operation(summary = "Get comment by ID")
-	@ApiResponse (description = "Comment returned", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Comment.class))) 
-	@ApiResponse(description = "Comment not found", responseCode = "204", content = @Content)
-	public ResponseEntity<Comment> getComment(
-			@Parameter(description = "ID of the comment to be searched") 
-			@PathVariable long id) {
+	public ResponseEntity<Comment> getComment(long id) {
 		
 		final Comment comment = service.getComment(id);
 		
@@ -53,13 +41,7 @@ public class CommentController {
 	}
 	
 	@PostMapping("/")
-	@Operation(summary = "Create new comment")
-	@ApiResponse(description = "Comment created", responseCode = "201", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Comment.class)))
-	@ApiResponse(description = "Book not found", responseCode = "204", content = @Content)
-	@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Comment to be created", required = true,
-	content = @Content(mediaType = "application/json", schema = @Schema(implementation = Comment.class)))
-	public ResponseEntity<Comment> createComment(
-			@RequestBody CommentDTO dto) {
+	public ResponseEntity<Comment> createComment(CommentDTO dto) {
 
 		Book book = bookService.getBook(dto.bookId());
 		if (book == null) {
@@ -75,11 +57,7 @@ public class CommentController {
 	}
 
 	@DeleteMapping("/{id}")
-	@Operation(summary = "Delete comment")
-	@ApiResponse(description = "Comment deleted", responseCode = "200", content = @Content)
-	public ResponseEntity<Void> deleteComment(
-			@Parameter(description = "ID of the comment to be deleted") 
-			@PathVariable long id) {
+	public ResponseEntity<Void> deleteComment(long id) {
 		
 		Comment comment = service.getComment(id);
 		if (comment != null) {

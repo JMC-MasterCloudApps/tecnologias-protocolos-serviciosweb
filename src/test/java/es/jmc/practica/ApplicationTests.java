@@ -1,4 +1,4 @@
-package es.jmc.practica1;
+package es.jmc.practica;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
