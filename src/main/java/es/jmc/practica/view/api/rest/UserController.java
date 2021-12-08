@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -84,9 +85,12 @@ public class UserController implements UserRestApi {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteUser(long id) {
 
-		service.getUser(id).ifPresent(service::delete);
+		if (commentService.findCommentsByUser(id).isEmpty()) {
+			service.getUser(id).ifPresent(service::delete);
+			return ResponseEntity.ok().build();
+		}
 
-		return ResponseEntity.ok().build();
+		return ResponseEntity.status(HttpStatus.CONFLICT).build();
 	}
 
 	@GetMapping("/{id}/comments")
@@ -136,6 +140,7 @@ interface UserRestApi {
 
 	@Operation(summary = "Delete user")
 	@ApiResponse(description = "User deleted", responseCode = "200", content = @Content)
+	@ApiResponse(description = "Cannot delete user with existing comments.", responseCode = "409", content = @Content)
 	ResponseEntity<Void> deleteUser
 			(@Parameter(description = "ID of the user")
 			@PathVariable long id);

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import es.jmc.practica.model.Comment;
 import es.jmc.practica.model.Score;
-import es.jmc.practica.view.api.dtos.CommentRequest;
 
 @Service
 public class CommentService {
@@ -35,7 +34,7 @@ public class CommentService {
 
 	public Collection<Comment> findCommentsByUser(long id) {
 		
-		if (Math.random() % 2 == 0)
+		if (Math.random() % 2 != 0)
 			return Collections.emptySet();
 		
 		return Collections.singleton(new Comment(55, "Joey", "This is just fire!", Score.FOUR)); 

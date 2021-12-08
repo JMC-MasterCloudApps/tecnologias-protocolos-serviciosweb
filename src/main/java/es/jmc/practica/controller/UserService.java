@@ -12,18 +12,21 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.jmc.practica.model.User;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserService {
 
   private List<User> users;
   private AtomicLong idCounter = new AtomicLong();
-
+  
   @PostConstruct
   private void setUp() {
 
@@ -74,7 +77,7 @@ public class UserService {
 
   public void delete(User user) {
 
-    // TODO remove if there is no comments from this user
     users.remove(user);
   }
+  
 }

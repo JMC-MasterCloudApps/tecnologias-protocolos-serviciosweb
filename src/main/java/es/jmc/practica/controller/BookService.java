@@ -47,7 +47,7 @@ public class BookService {
 				1, 
 				"Ed Yourdon",
 				"This book is dynamite!",
-				Score.FIVE); 
+				Score.FIVE);
 		
 		book.addComment(comment);
 		log.info(book.toString());
