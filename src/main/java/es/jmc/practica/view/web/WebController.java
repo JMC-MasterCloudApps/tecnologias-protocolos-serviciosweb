@@ -14,7 +14,7 @@ import es.jmc.practica.controller.BookService;
 import es.jmc.practica.controller.CommentService;
 import es.jmc.practica.model.Book;
 import es.jmc.practica.model.Comment;
-import es.jmc.practica.view.api.dtos.BookDTO;
+import es.jmc.practica.view.api.dtos.BookRequest;
 import es.jmc.practica.view.api.dtos.CommentRequest;
 
 @Controller
@@ -60,7 +60,7 @@ public class WebController {
 			@RequestParam String publishHouse,
 			@RequestParam int publishYear) {
 		
-		var dto = new BookDTO(title, summary, author, publishHouse, publishYear, new ArrayList<>());
+		var dto = new BookRequest(title, summary, author, publishHouse, publishYear, new ArrayList<>());
 		
 		bookService.create(dto);
 		
