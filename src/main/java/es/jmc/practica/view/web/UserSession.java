@@ -1,4 +1,4 @@
-package es.jmc.practica1.view.web;
+package es.jmc.practica.view.web;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;

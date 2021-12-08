@@ -1,16 +1,15 @@
-package es.jmc.practica1.view.api.rest;
+package es.jmc.practica.view.api.rest;
 
 import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import es.jmc.practica1.controllers.UserService;
 
-import es.jmc.practica1.models.Book;
-import es.jmc.practica1.models.User;
-
-import es.jmc.practica1.view.api.dtos.BookDTO;
-import es.jmc.practica1.view.api.dtos.UserRequest;
+import es.jmc.practica.controller.UserService;
+import es.jmc.practica.model.Book;
+import es.jmc.practica.model.User;
+import es.jmc.practica.view.api.dtos.BookDTO;
+import es.jmc.practica.view.api.dtos.UserRequest;
 import io.swagger.v3.oas.annotations.Operation;
 
 import io.swagger.v3.oas.annotations.Parameter;

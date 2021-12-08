@@ -1,7 +1,8 @@
-package es.jmc.practica1.view.database.repositories;
+package es.jmc.practica.view.database.repositories;
 
-import es.jmc.practica1.view.database.entities.UserDAO;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import es.jmc.practica.view.database.entities.UserDAO;
 
 public interface UserRepository extends JpaRepository<UserDAO, Long> {
 }

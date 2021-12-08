@@ -1,4 +1,4 @@
-package es.jmc.practica1.view.web;
+package es.jmc.practica.view.web;
 
 import java.util.ArrayList;
 
@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import es.jmc.practica1.models.Book;
-import es.jmc.practica1.view.api.dtos.BookDTO;
-import es.jmc.practica1.controllers.BookService;
-import es.jmc.practica1.models.Comment;
-import es.jmc.practica1.view.api.dtos.CommentDTO;
-import es.jmc.practica1.controllers.CommentService;
+import es.jmc.practica.controller.BookService;
+import es.jmc.practica.controller.CommentService;
+import es.jmc.practica.model.Book;
+import es.jmc.practica.model.Comment;
+import es.jmc.practica.view.api.dtos.BookDTO;
+import es.jmc.practica.view.api.dtos.CommentDTO;
 
 @Controller
 public class WebController {

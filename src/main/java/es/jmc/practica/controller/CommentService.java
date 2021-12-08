@@ -1,11 +1,12 @@
-package es.jmc.practica1.controllers;
+package es.jmc.practica.controller;
 
-import es.jmc.practica1.view.api.dtos.CommentDTO;
-import es.jmc.practica1.models.Comment;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import es.jmc.practica.model.Comment;
+import es.jmc.practica.view.api.dtos.CommentDTO;
 
 @Service
 public class CommentService {

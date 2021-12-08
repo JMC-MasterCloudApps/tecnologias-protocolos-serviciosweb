@@ -1,4 +1,4 @@
-package es.jmc.practica1.view.database.entities;
+package es.jmc.practica.view.database.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

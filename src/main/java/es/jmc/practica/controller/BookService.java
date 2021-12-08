@@ -1,8 +1,5 @@
-package es.jmc.practica1.controllers;
+package es.jmc.practica.controller;
 
-import es.jmc.practica1.view.api.dtos.BookDTO;
-import es.jmc.practica1.models.Book;
-import es.jmc.practica1.models.Comment;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -15,6 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import es.jmc.practica.model.Book;
+import es.jmc.practica.model.Comment;
+import es.jmc.practica.view.api.dtos.BookDTO;
 
 @Service
 @Slf4j

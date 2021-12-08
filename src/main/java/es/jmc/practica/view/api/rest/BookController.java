@@ -1,8 +1,7 @@
-package es.jmc.practica1.view.api.rest;
+package es.jmc.practica.view.api.rest;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
-import es.jmc.practica1.view.api.dtos.BookDTO;
 import java.net.URI;
 import java.util.Collection;
 
@@ -19,9 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-import es.jmc.practica1.models.Book;
-import es.jmc.practica1.controllers.BookService;
-import es.jmc.practica1.models.Comment;
+import es.jmc.practica.controller.BookService;
+import es.jmc.practica.model.Book;
+import es.jmc.practica.model.Comment;
+import es.jmc.practica.view.api.dtos.BookDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
