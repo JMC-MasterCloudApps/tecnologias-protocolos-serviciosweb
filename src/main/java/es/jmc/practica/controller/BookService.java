@@ -8,14 +8,12 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import javax.annotation.PostConstruct;
 
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import es.jmc.practica.model.Book;
 import es.jmc.practica.model.Comment;
 import es.jmc.practica.view.api.dtos.BookDTO;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j

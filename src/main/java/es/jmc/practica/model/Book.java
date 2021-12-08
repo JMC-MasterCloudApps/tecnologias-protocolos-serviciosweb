@@ -4,17 +4,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class Book {
 	
-	private final long id;
-	private final String title;
-	private final String summary;
-	private final String author;
-	private final String publishHouse;
-	private final int publishYear;
+	private long id;
+	private String title;
+	private String summary;
+	private String author;
+	private String publishHouse;
+	private int publishYear;
 	private List<Comment> comments;
 	
 	public Book(

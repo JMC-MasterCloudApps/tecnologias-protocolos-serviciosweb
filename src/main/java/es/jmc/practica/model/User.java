@@ -1,18 +1,14 @@
 package es.jmc.practica.model;
 
-import com.fasterxml.jackson.annotation.JsonView;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class User {
 
-  public interface Lite { }
-
-  private final long id;
-  @JsonView(value = {Lite.class})
-  private final String nick;
-
-  @JsonView(value = {Lite.class})
-  private final String email;
+  private long id;
+  private String nick;  // unique
+  private String email;
 
 }

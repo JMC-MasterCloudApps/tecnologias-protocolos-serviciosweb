@@ -1,18 +1,21 @@
 package es.jmc.practica.controller;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
+
 import javax.annotation.PostConstruct;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 
-import es.jmc.practica.model.Book;
 import es.jmc.practica.model.User;
-import es.jmc.practica.view.api.dtos.UserRequest;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
@@ -33,6 +36,15 @@ public class UserService {
     users.add(user);
   }
 
+  public User create(User user) {
+
+	user.setId(idCounter.getAndIncrement());
+    
+    log.info("User created: {}", users.add(user));
+
+    return user;
+  }
+  
   public Collection<User> getUsers() {
 
     return users;
@@ -45,16 +57,19 @@ public class UserService {
         .findFirst();
   }
 
-  public User create(UserRequest userRequest) {
-
-    var user = new User(
-        idCounter.getAndIncrement(),
-        userRequest.nick(),
-        userRequest.email());
-
-    users.add(user);
-
-    return user;
+  public Optional<User> update(User user) {
+	  
+	  for(User item : users) {
+		  if (item.getId() == user.getId()) {
+			  log.info("Patching user...");
+			  log.info(user.toString());
+			  item.setEmail(user.getEmail());
+			  log.info(item.toString());
+			  return of(item);
+		  }
+	  }
+	  
+	  return empty();
   }
 
   public void delete(User user) {
