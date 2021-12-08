@@ -1,24 +1,15 @@
 package es.jmc.practica.model;
 
-import com.fasterxml.jackson.annotation.JsonView;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class Comment {
-
-	public interface Full { }
 	
-	@JsonView(Full.class)
-	private final long id;
-
-	@JsonView(Full.class)
-	private final String author;
-
-	@JsonView(Full.class)
-	private final String content;
-
-	@JsonView(Full.class)
-	private final int score;
+	private long id;
+	private String author;
+	private String content;
+	private int score;
 
 }

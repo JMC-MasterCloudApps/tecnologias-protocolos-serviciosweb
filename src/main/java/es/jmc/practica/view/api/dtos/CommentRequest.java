@@ -1,6 +1,6 @@
 package es.jmc.practica.view.api.dtos;
 
-public record CommentDTO (
+public record CommentRequest (
 		long bookId,
 		String author,
 		String content,

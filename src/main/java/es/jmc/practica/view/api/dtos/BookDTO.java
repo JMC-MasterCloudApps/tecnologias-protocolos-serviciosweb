@@ -8,4 +8,4 @@ public record BookDTO (
 		String author,
 		String publishHouse,
 		int publishYear,
-		List<CommentDTO> comments) { }
+		List<CommentRequest> comments) { }

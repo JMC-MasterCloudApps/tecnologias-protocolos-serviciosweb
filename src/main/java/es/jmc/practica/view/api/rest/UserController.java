@@ -1,6 +1,7 @@
 package es.jmc.practica.view.api.rest;
 
 import static es.jmc.practica.view.api.mapper.UserMapper.USER_MAPPER;
+import static es.jmc.practica.view.api.mapper.CommentMapper.COMMENT_MAPPER;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
@@ -20,8 +21,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.jmc.practica.controller.CommentService;
 import es.jmc.practica.controller.UserService;
+import es.jmc.practica.model.Comment;
 import es.jmc.practica.model.User;
+import es.jmc.practica.view.api.dtos.CommentRequest;
 import es.jmc.practica.view.api.dtos.UserRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -37,6 +41,7 @@ import lombok.RequiredArgsConstructor;
 public class UserController implements UserRestApi {
 
 	private final UserService service;
+	private final CommentService commentService;
 
 	@GetMapping("/")
 	public Collection<UserRequest> getUsers() {
@@ -76,7 +81,6 @@ public class UserController implements UserRestApi {
 		return user.map(ResponseEntity::ok).orElseGet(() -> noContent().build());
 	}
 
-
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteUser(long id) {
 
@@ -84,7 +88,14 @@ public class UserController implements UserRestApi {
 
 		return ResponseEntity.ok().build();
 	}
-	
+
+	@GetMapping("/{id}/comments")
+	public Collection<CommentRequest> getCommentsByUser(long id) {
+
+		Collection<Comment> comments = commentService.findCommentsByUser(id);
+		
+		return COMMENT_MAPPER.comment2dto(comments);
+	}
 }
 
 interface UserRestApi {
@@ -93,7 +104,7 @@ interface UserRestApi {
 	@ApiResponse (
 			description = "Users returned", 
 			responseCode = "200",
-			content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = User.class)))
+			content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = UserRequest.class)))
 	Collection<UserRequest> getUsers();
 	
 	@Operation(summary = "Get user by ID")
@@ -149,5 +160,13 @@ interface UserRestApi {
 			@PathVariable long id,
 			@RequestBody String userEmail);
 
+	@Operation(summary = "Get all comments by user.")
+	@ApiResponse (
+			description = "Comments returned", 
+			responseCode = "200",
+			content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = CommentRequest.class)))
+	Collection<CommentRequest> getCommentsByUser(
+			@Parameter(description = "ID of the user")
+			@PathVariable long id);
 }
 
