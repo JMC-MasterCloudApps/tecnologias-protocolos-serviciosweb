@@ -1,5 +1,6 @@
 package es.jmc.practica.view.api.mapper;
 
+import es.jmc.practica.view.api.dtos.LiteBookRequest;
 import java.util.Collection;
 
 import org.mapstruct.Mapper;
@@ -14,12 +15,12 @@ import es.jmc.practica.view.api.dtos.CommentRequest;
 @Mapper
 public interface BookMapper {
 
-	final static BookMapper BOOK_MAPPER = Mappers.getMapper(BookMapper.class);
+	BookMapper BOOK_MAPPER = Mappers.getMapper(BookMapper.class);
 	
 	BookRequest book2dto(Book book);
 	
-	Collection<BookRequest> book2dto(Collection<Book> books);
-	
+	Collection<LiteBookRequest> book2dto(Collection<Book> books);
+
 	default CommentRequest map(Comment comment) {
 		return CommentMapper.COMMENT_MAPPER.comment2dto(comment);
 	}

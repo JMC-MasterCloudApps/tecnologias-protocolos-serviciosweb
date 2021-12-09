@@ -4,6 +4,7 @@ import static es.jmc.practica.view.api.mapper.BookMapper.BOOK_MAPPER;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
+import es.jmc.practica.view.api.dtos.LiteBookRequest;
 import java.net.URI;
 import java.util.Collection;
 
@@ -36,7 +37,7 @@ public class BookController implements BookRestApi {
 	private final BookService service;
 
 	@GetMapping("/")
-	public Collection<BookRequest> getBooks() {
+	public Collection<LiteBookRequest> getBooks() {
 		
 		Collection<Book> books = service.getBooks();
 		
@@ -82,10 +83,10 @@ interface BookRestApi {
 	
 	@Operation(summary = "Get all books")
 	@ApiResponse(
-			description = "Books returned", 
+			description = "Books returned",
 			responseCode = "200",
-			content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = BookRequest.class)))
-	Collection<BookRequest> getBooks();
+			content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = LiteBookRequest.class)))
+	Collection<LiteBookRequest> getBooks();
 	
 	@Operation(summary = "Get book by ID")
 	@ApiResponses({
