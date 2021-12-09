@@ -3,6 +3,7 @@ package es.jmc.practica.controller;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
+import es.jmc.practica.view.database.repositories.UserRepository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -24,6 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserService {
 
+  private final UserRepository repository;
+
   private List<User> users;
   private AtomicLong idCounter = new AtomicLong();
   
@@ -37,6 +40,15 @@ public class UserService {
 
     user = new User(idCounter.getAndIncrement(), "Ann", "ann@mail.com");
     users.add(user);
+    users.clear();
+
+    user = new User(idCounter.getAndIncrement(), "MOE", "moe@mail.com");
+    users.add(user);
+
+    user = new User(idCounter.getAndIncrement(), "LOU", "lou@mail.com");
+    users.add(user);
+
+    repository.saveAll(users);
   }
 
   public User create(User user) {
