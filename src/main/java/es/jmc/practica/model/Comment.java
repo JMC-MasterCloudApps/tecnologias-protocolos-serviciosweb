@@ -8,7 +8,7 @@ import lombok.Data;
 public class Comment {
 	
 	private long id;
-	private String author;
+	private User author;
 	private String content;
 	private Score score;
 

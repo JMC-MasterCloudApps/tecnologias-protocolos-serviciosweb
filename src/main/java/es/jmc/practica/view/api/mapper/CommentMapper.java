@@ -12,7 +12,7 @@ import es.jmc.practica.view.api.dtos.CommentRequest;
 @Mapper
 public interface CommentMapper {
 
-	final static CommentMapper COMMENT_MAPPER = Mappers.getMapper(CommentMapper.class);
+	CommentMapper COMMENT_MAPPER = Mappers.getMapper(CommentMapper.class);
 	
 	CommentRequest comment2dto(Comment comment);
 	
@@ -29,4 +29,5 @@ public interface CommentMapper {
 	default int map(Score score) {
 		return score.getValue();
 	}
+
 }

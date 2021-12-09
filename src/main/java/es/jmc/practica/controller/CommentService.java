@@ -1,5 +1,6 @@
 package es.jmc.practica.controller;
 
+import es.jmc.practica.model.User;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicLong;
@@ -37,6 +38,9 @@ public class CommentService {
 		if (Math.random() % 2 != 0)
 			return Collections.emptySet();
 		
-		return Collections.singleton(new Comment(55, "Joey", "This is just fire!", Score.FOUR)); 
+		return Collections.singleton(new Comment(55,
+				new User(id, "Joey", "joey@mail.com"),
+				"This is just fire!",
+				Score.FOUR));
 	}
 }

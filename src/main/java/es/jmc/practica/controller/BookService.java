@@ -1,5 +1,6 @@
 package es.jmc.practica.controller;
 
+import es.jmc.practica.model.User;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -44,8 +45,10 @@ public class BookService {
 				"Addison Wesley",
 				2004);
 		var comment = new Comment(
-				1, 
+				1,
+				new User(1,
 				"Ed Yourdon",
+						"ed@mail.com"),
 				"This book is dynamite!",
 				Score.FIVE);
 		

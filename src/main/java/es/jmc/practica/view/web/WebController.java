@@ -78,7 +78,7 @@ public class WebController {
 			@RequestParam int score) {
 
 		session.setUserName(author);
-		var dto = new Comment(bookId, author, content, Score.findByValue(score));
+		var dto = new Comment(bookId, null, content, Score.findByValue(score));
 
 		Comment comment = commentService.create(dto);
 		Book book = bookService.getBook(bookId);
