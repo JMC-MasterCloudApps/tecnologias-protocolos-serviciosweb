@@ -1,6 +1,7 @@
 package es.jmc.practica.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,8 +30,12 @@ public class Comment {
 	@ManyToOne @JsonIgnore
 	private Book book;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private User author;
 
+	public Comment (String content, Score score) {
 
+		this.content = content;
+		this.score = score;
+	}
 }

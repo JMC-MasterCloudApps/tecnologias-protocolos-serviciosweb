@@ -5,22 +5,30 @@ import es.jmc.practica.model.Comment;
 import es.jmc.practica.model.Score;
 import es.jmc.practica.model.User;
 import es.jmc.practica.view.api.dtos.BookRequest;
+import es.jmc.practica.view.db.repositories.BookRepository;
+import es.jmc.practica.view.db.repositories.CommentRepository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
 @Slf4j
+@Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BookService {
 
 	private List<Book> books;
 	private AtomicLong idCounter = new AtomicLong();
-	
+
+	private final BookRepository repository;
+	private final CommentRepository commentRepository;
+
 	@PostConstruct
 	private void setUp() {
 		books = Collections.synchronizedList(new ArrayList<>());
@@ -31,25 +39,22 @@ public class BookService {
 				"Pearson",
 				2008);
 		books.add(book);
-		log.info(book.toString());
-		
+		repository.save(book);
+
 		book = new Book(
 				"Extreme Programming Explained",
 				"Embrace Change (XP Series)",
 				"Kent Beck",
 				"Addison Wesley",
 				2004);
-		var comment = new Comment(
-				1,
-				"This book is dynamite!",
-				Score.FIVE,
-				new Book(),
-				new User("Ed Yourdon",
-						"ed@mail.com"));
-		
-		book.addComment(comment);
-		log.info(book.toString());
 		books.add(book);
+		repository.save(book);
+
+		var user = new User("Johnson", "johnson@mail.com");
+		var comment = new Comment("Baby steps are great", Score.FOUR);
+		comment.setAuthor(user);
+		comment.setBook(book);
+		commentRepository.save(comment);
 	}
 	
 	public Collection<Book> getBooks() {
