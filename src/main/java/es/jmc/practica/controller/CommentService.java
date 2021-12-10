@@ -1,5 +1,6 @@
 package es.jmc.practica.controller;
 
+import es.jmc.practica.model.Book;
 import es.jmc.practica.model.User;
 import java.util.Collection;
 import java.util.Collections;
@@ -39,8 +40,9 @@ public class CommentService {
 			return Collections.emptySet();
 		
 		return Collections.singleton(new Comment(55,
-				new User(id, "Joey", "joey@mail.com"),
 				"This is just fire!",
-				Score.FOUR));
+				Score.FOUR,
+				new Book("Random", "", "", "", 1123),
+				new User("Joey", "joey@mail.com")));
 	}
 }

@@ -35,17 +35,17 @@ public class UserService {
 
     users = Collections.synchronizedList(new ArrayList<>());
 
-    var user = new User(idCounter.getAndIncrement(), "Joe", "joe@mail.com");
+    var user = new User( "Joe", "joe@mail.com");
     users.add(user);
 
-    user = new User(idCounter.getAndIncrement(), "Ann", "ann@mail.com");
+    user = new User( "Ann", "ann@mail.com");
     users.add(user);
     users.clear();
 
-    user = new User(idCounter.getAndIncrement(), "MOE", "moe@mail.com");
+    user = new User( "MOE", "moe@mail.com");
     users.add(user);
 
-    user = new User(idCounter.getAndIncrement(), "LOU", "lou@mail.com");
+    user = new User("LOU", "lou@mail.com");
     users.add(user);
 
     repository.saveAll(users);

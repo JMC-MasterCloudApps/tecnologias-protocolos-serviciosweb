@@ -1,21 +1,18 @@
 package es.jmc.practica.controller;
 
+import es.jmc.practica.model.Book;
+import es.jmc.practica.model.Comment;
+import es.jmc.practica.model.Score;
 import es.jmc.practica.model.User;
+import es.jmc.practica.view.api.dtos.BookRequest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
-
 import javax.annotation.PostConstruct;
-
-import org.springframework.stereotype.Service;
-
-import es.jmc.practica.model.Book;
-import es.jmc.practica.model.Comment;
-import es.jmc.practica.model.Score;
-import es.jmc.practica.view.api.dtos.BookRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
@@ -28,8 +25,7 @@ public class BookService {
 	private void setUp() {
 		books = Collections.synchronizedList(new ArrayList<>());
 		
-		var book = new Book(idCounter.getAndIncrement(),
-				"Clean Code",
+		var book = new Book("Clean Code",
 				"A Handbook of Agile Software Craftsmanship",
 				"Robert C. Martin",
 				"Pearson",
@@ -38,7 +34,6 @@ public class BookService {
 		log.info(book.toString());
 		
 		book = new Book(
-				idCounter.getAndIncrement(),
 				"Extreme Programming Explained",
 				"Embrace Change (XP Series)",
 				"Kent Beck",
@@ -46,11 +41,11 @@ public class BookService {
 				2004);
 		var comment = new Comment(
 				1,
-				new User(1,
-				"Ed Yourdon",
-						"ed@mail.com"),
 				"This book is dynamite!",
-				Score.FIVE);
+				Score.FIVE,
+				new Book(),
+				new User("Ed Yourdon",
+						"ed@mail.com"));
 		
 		book.addComment(comment);
 		log.info(book.toString());
@@ -75,7 +70,6 @@ public class BookService {
 	public Book create(BookRequest dto) {
 		
 		var book = new Book(
-				idCounter.getAndIncrement(),
 				dto.title(),
 				dto.summary(),
 				dto.author(),

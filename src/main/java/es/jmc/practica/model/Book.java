@@ -4,30 +4,48 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Entity
+@NoArgsConstructor
 @AllArgsConstructor
 public class Book {
-	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
-	private String title;
-	private String summary;
-	private String author;
-	private String publishHouse;
-	private int publishYear;
+
+	@Column	private String title;
+	@Column private String summary;
+	@Column private String author;
+	@Column private String publishHouse;
+	@Column private int publishYear;
+
+	@OneToMany(
+			mappedBy = "book",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true,
+			fetch = FetchType.EAGER)
 	private List<Comment> comments;
 	
 	public Book(
-			long id,
 			String title,
 			String summary, 
 			String author,
 			String publishHouse,
 			int publishYear) {
-		
-		this.id = id;
+
 		this.title = title;       
 		this.summary = summary;
 		this.author = author;
