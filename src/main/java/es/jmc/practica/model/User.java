@@ -1,5 +1,6 @@
 package es.jmc.practica.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -20,9 +21,11 @@ import lombok.NoArgsConstructor;
 public class User {
 
   @Id
+  @JsonIgnore
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private long id;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
   private List<Comment> comments;
   @Column private String nick;  // unique

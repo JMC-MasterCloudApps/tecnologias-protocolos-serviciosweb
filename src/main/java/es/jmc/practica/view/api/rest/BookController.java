@@ -8,6 +8,7 @@ import es.jmc.practica.view.api.dtos.LiteBookRequest;
 import java.net.URI;
 import java.util.Collection;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,22 +45,19 @@ public class BookController implements BookRestApi {
 		return BOOK_MAPPER.book2dto(books);
 	}
 
-	@GetMapping("/{id}")	
+	@GetMapping("/{id}")
 	public ResponseEntity<Book> getBook(long id) {
 
-		final Book book = service.getBook(id);
+		Optional<Book> book = service.getBook(id);
 
-		if (book == null) {
-			return ResponseEntity.noContent().build();
-		}
-
-		return ResponseEntity.ok(book);
+		return ResponseEntity.of(book);
 	}
 
 	@PostMapping("/")
 	public ResponseEntity<Book> createBook(BookRequest newBook) {
 
-		Book book = service.create(newBook);
+		Book book = BOOK_MAPPER.dto2book(newBook);
+		book = service.create(book);
 
 		URI location = fromCurrentRequest().path("/{id}").buildAndExpand(book.getId()).toUri();
 
@@ -69,10 +67,8 @@ public class BookController implements BookRestApi {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteBook(long id) {
 
-		Book book = service.getBook(id);
-		if (book != null) {
-			service.delete(book);
-		}
+		Optional<Book> book = service.getBook(id);
+		book.ifPresent(service::delete);
 
 		return ResponseEntity.ok().build();
 	}
@@ -96,7 +92,7 @@ interface BookRestApi {
 				content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = Book.class))),
 		@ApiResponse(
 				description = "Book not found", 
-				responseCode = "204", 
+				responseCode = "404",
 				content = @Content)
 	})	
 	ResponseEntity<Book> getBook(

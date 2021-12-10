@@ -7,6 +7,7 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 
 import java.net.URI;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -54,14 +55,15 @@ public class CommentController implements CommentRestApi {
 	@PostMapping("/")
 	public ResponseEntity<Comment> createComment(CommentRequest dto) {
 
-		Book book = bookService.getBook(dto.bookId());
-		if (book == null) {
+		Optional<Book> book = bookService.getBook(dto.bookId());
+
+		if (book.isEmpty()) {
 			return ResponseEntity.noContent().build();
 		}
 		
 		Comment comment = COMMENT_MAPPER.dto2comment(dto);
 		comment = service.create(comment);
-		book.addComment(comment);
+		book.get().addComment(comment);
 
 		URI location = fromCurrentRequest().path("/{id}").buildAndExpand(comment.getId()).toUri();
 

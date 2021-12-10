@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 public class Comment {
 
 	@Id
+	@JsonIgnore
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
 

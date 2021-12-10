@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserService {
-  
+
   private List<User> users;
   private AtomicLong idCounter = new AtomicLong();
 

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -58,31 +59,25 @@ public class BookService {
 	}
 	
 	public Collection<Book> getBooks() {
-		return books;
+
+		return repository.findAll();
 	}
 	
-	public Book getBook(long id) {
-		
-		for (Book book : books) {
-			if (book.getId() == id) {
-				return book;
-			}
-		}
-		
-		return null;
+	public Optional<Book> getBook(long id) {
+
+		return repository.findById(id);
 	}
 
-	public Book create(BookRequest dto) {
-		
-		var book = new Book(
-				dto.title(),
-				dto.summary(),
-				dto.author(),
-				dto.publishHouse(),
-				dto.publishYear());
-		books.add(book);
-		
-		return book;
+	public Book create(Book book) {
+
+		Book savedBook = repository.save(book);
+		if (book.getComments().isEmpty()) {
+			return savedBook;
+		}
+
+		book.getComments().forEach(comment -> comment.setBook(savedBook));
+		commentRepository.saveAll(book.getComments());
+		return savedBook;
 	}
 	
 	public void delete(Book book) {

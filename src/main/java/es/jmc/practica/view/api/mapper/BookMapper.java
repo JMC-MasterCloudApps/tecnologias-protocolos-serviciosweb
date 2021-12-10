@@ -21,6 +21,8 @@ public interface BookMapper {
 	
 	Collection<LiteBookRequest> book2dto(Collection<Book> books);
 
+	Book dto2book (BookRequest bookRequest);
+
 	default CommentRequest map(Comment comment) {
 		return CommentMapper.COMMENT_MAPPER.comment2dto(comment);
 	}
