@@ -1,5 +1,7 @@
 package es.jmc.practica.controller;
 
+import static java.util.Arrays.asList;
+
 import es.jmc.practica.model.Book;
 import es.jmc.practica.model.Comment;
 import es.jmc.practica.model.Score;
@@ -7,6 +9,7 @@ import es.jmc.practica.model.User;
 import es.jmc.practica.view.api.dtos.BookRequest;
 import es.jmc.practica.view.db.repositories.BookRepository;
 import es.jmc.practica.view.db.repositories.CommentRepository;
+import es.jmc.practica.view.db.repositories.UserRepository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -18,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -25,21 +29,20 @@ import org.springframework.stereotype.Service;
 public class BookService {
 
 	private List<Book> books;
-	private AtomicLong idCounter = new AtomicLong();
 
 	private final BookRepository repository;
 	private final CommentRepository commentRepository;
+	private final UserRepository userRepository;
 
 	@PostConstruct
-	private void setUp() {
-		books = Collections.synchronizedList(new ArrayList<>());
+	@Transactional
+	void setUp() {
 		
 		var book = new Book("Clean Code",
 				"A Handbook of Agile Software Craftsmanship",
 				"Robert C. Martin",
 				"Pearson",
 				2008);
-		books.add(book);
 		repository.save(book);
 
 		book = new Book(
@@ -48,14 +51,35 @@ public class BookService {
 				"Kent Beck",
 				"Addison Wesley",
 				2004);
-		books.add(book);
 		repository.save(book);
 
 		var user = new User("Johnson", "johnson@mail.com");
 		var comment = new Comment("Baby steps are great", Score.FOUR);
 		comment.setAuthor(user);
 		comment.setBook(book);
-		commentRepository.save(comment);
+
+
+		book = new Book(
+				"The pragmatic programmer",
+				"From Journeyman to Master",
+				"Andrew Hunt",
+				"Addison Wesley",
+				1999);
+		repository.save(book);
+
+		var comment2 = new Comment("Baby steps are great", Score.FOUR);
+		comment2.setAuthor(user);
+		comment2.setBook(book);
+
+
+		user = new User("Lisa", "lisa@mail.com");
+		var comment3 = new Comment("Helped me a lot", Score.FOUR);
+		comment3.setAuthor(user);
+		comment3.setBook(book);
+		commentRepository.saveAll(asList(comment, comment2, comment3));
+//		commentRepository.save(comment);
+//		commentRepository.save(comment2);
+//		commentRepository.save(comment3);
 	}
 	
 	public Collection<Book> getBooks() {
@@ -81,7 +105,8 @@ public class BookService {
 	}
 	
 	public void delete(Book book) {
-		books.remove(book);
+
+		repository.delete(book);
 	}
 
 	public Comment findCommentById(long id) {
